@@ -1,5 +1,6 @@
-# Start with JupyterHub image.
-FROM ccpbiosim/jupyterbase:v3.0.0
+# Start with BioSim base image.
+ARG BASE_IMAGE=latest
+FROM harbor.stfc.ac.uk/biosimulation-cloud/biosim-jupyter-base:$BASE_IMAGE
 
 LABEL maintainer="James Gebbie-Rayet <james.gebbie@stfc.ac.uk>"
 
@@ -9,7 +10,6 @@ WORKDIR $HOME
 
 # Python Dependencies for the workshop
 RUN conda install ipywidgets
-RUN pip3 install jupyterhub-tmpauthenticator
 
 # Clone and install codeentropy
 RUN git clone https://github.com/CCPBioSim/CodeEntropy.git && \
@@ -25,9 +25,6 @@ RUN git clone https://github.com/CCPBioSim/codeentropy-workshop.git && \
 
 # Copy lab workspace
 COPY --chown=1000:100 default-37a8.jupyterlab-workspace /home/jovyan/.jupyter/lab/workspaces/default-37a8.jupyterlab-workspace
-
-# Copy startup script - not necessary in JHub 3.0.0?
-#COPY --chown=1000:100 spawn-terminal.py /usr/local/bin/spawn-terminal.py
 
 # UNCOMMENT THIS LINE FOR REMOTE DEPLOYMENT
 COPY jupyter_notebook_config.py /etc/jupyter/
