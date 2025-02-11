@@ -1,5 +1,5 @@
-PSDI CodeEntropy Workshop
-==================
+CCPBioSim CodeEntropy Workshop
+==============================
 
 [![build](https://github.com/jimboid/biosim-codeentropy-workshop/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/jimboid/biosim-codeentropy-workshop/actions/workflows/build.yml)
 
