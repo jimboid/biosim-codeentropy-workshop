@@ -12,14 +12,8 @@ USER $NB_USER
 WORKDIR $HOME
 
 # Python Dependencies for the workshop
-RUN conda install ipywidgets
-
-# Clone and install codeentropy
-RUN git clone https://github.com/CCPBioSim/CodeEntropy.git && \
-    cd CodeEntropy && \
-    pip install . && \
-    cd .. && \
-    rm -r CodeEntropy
+RUN conda install ipywidgets mdanalysis
+RUN pip install CodeEntropy
 
 # Clone workshop contents
 RUN git clone https://github.com/CCPBioSim/codeentropy-workshop.git && \
