@@ -51,7 +51,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           tags: ghcr.io/jimboid/${{ github.event.repository.name }}
-          outputs: type=image,push-by-digest=true,name-canonical=true,push=true
+          outputs: type=docker,push-by-digest=true,name-canonical=true,push=true
 
       - name: Test notebooks
         shell: bash
