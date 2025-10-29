@@ -58,7 +58,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           tags: ghcr.io/${{ github.repository }}
-          outputs: type=image,push-by-digest=true,name-canonical=true,push=true
+          outputs: type=docker,push-by-digest=true,name-canonical=true,push=false
 
       - name: Export digest
         run: |
