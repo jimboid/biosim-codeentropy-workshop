@@ -37,7 +37,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5.8.0
         with:
-          images: ghcr.io/${{ vars.ORG_REPO }}/${{ github.event.repository.name }}
+          images: ghcr.io/jimboid/${{ github.event.repository.name }}
 
       - name: Set up Docker Buildx
         id: buildx
@@ -50,13 +50,13 @@ jobs:
           file: ./docker/Dockerfile
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          tags: ghcr.io/${{ vars.ORG_REPO }}/${{ github.event.repository.name }}
+          tags: ghcr.io/jimboid/${{ github.event.repository.name }}
           outputs: type=image,push-by-digest=true,name-canonical=true,push=false
 
       - name: Test notebooks
         shell: bash
         run: |
-          docker run -t ghcr.io/${{ vars.ORG_REPO }}/${{ github.event.repository.name }}@${{ steps.build.outputs.digest }} bash -c " \
+          docker run -t ghcr.io/jimboid/${{ github.event.repository.name }}@${{ steps.build.outputs.digest }} bash -c " \
             CodeEntropy --help"
 
       - name: Authenticate with GHCR
@@ -114,7 +114,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5.8.0
         with:
-          images: ghcr.io/${{ vars.ORG_REPO }}/${{ github.event.repository.name }}
+          images: ghcr.io/jimboid/${{ github.event.repository.name }}
           tags: |
             latest
             ${{ needs.build.outputs.tag }}
@@ -130,18 +130,18 @@ jobs:
             --annotation='index:org.opencontainers.image.created=${{ steps.timestamp.outputs.timestamp }}' \
             --annotation='index:org.opencontainers.image.url=${{ github.event.repository.url }}' \
             --annotation='index:org.opencontainers.image.source=${{ github.event.repository.url }}' \
-            $(printf 'ghcr.io/${{ vars.ORG_REPO }}/${{ github.event.repository.name }}@sha256:%s ' *)
+            $(printf 'ghcr.io/jimboid/${{ github.event.repository.name }}@sha256:%s ' *)
 
       - name: Create manifest list and push without annotations
         if: steps.annotate.outcome == 'failure'
         working-directory: ${{ runner.temp }}/digests
         run: |
           docker buildx imagetools create  $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf 'ghcr.io/${{ vars.ORG_REPO }}/${{ github.event.repository.name }}@sha256:%s ' *)
+            $(printf 'ghcr.io/jimboid/${{ github.event.repository.name }}@sha256:%s ' *)
 
       - name: Inspect image
         run: |
-          docker buildx imagetools inspect ghcr.io/${{ vars.ORG_REPO }}/${{ github.event.repository.name }}:latest
+          docker buildx imagetools inspect ghcr.io/jimboid/${{ github.event.repository.name }}:latest
 
 #      - name: Post version update to dash
 #        uses: peter-evans/repository-dispatch@v4.0.0
