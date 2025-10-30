@@ -45,7 +45,6 @@ jobs:
 
       - name: Build and load local for PR
         if: github.event_name == 'pull_request'
-        id: build
         uses: docker/build-push-action@v6.18.0
         with:
           file: ./Dockerfile
